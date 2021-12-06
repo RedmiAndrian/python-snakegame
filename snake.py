@@ -1,3 +1,4 @@
+import sys
 import os
 import time
 import keyboard
@@ -22,7 +23,7 @@ apple_pos = (-1, -1)
 # stupid booleans
 apple_Spawned = False
 apple_Eaten = False
-
+lose_yet = False
 
 # function to draw grid
 def draw():
@@ -114,6 +115,7 @@ def update_snake_body(x, y):
 
 # function to move the snake in the grid/map
 def head_move(direction, x, y):
+    global lose_yet
     tx = x
     ty = y
     if direction == "UP":
@@ -124,7 +126,16 @@ def head_move(direction, x, y):
         tx = tx - 1
     if direction == "RIGHT":
         tx = tx + 1
-    update_snake_body(tx, ty)
+    if tx >= 10 or tx < 0:
+        lose_yet = True
+        print("You lose")
+        sys.exit()
+    elif ty >= 10 or ty < 0:
+        lose_yet = True
+        print("You lose")
+        sys.exit()
+    else:
+        update_snake_body(tx, ty)
 
 while True:
     check_apple()
